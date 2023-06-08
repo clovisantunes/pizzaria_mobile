@@ -1,10 +1,22 @@
-import React, {useContext} from "react"
+import React, {useContext, useState} from "react"
 import { View, Text, SafeAreaView, TouchableOpacity, TextInput, StyleSheet } from "react-native"
-
-
+import {useNavigation } from '@react-navigation/native';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { StackPramsList } from "../../routes/app.routes";
 
 export default function Dashboard(){
+    const [number, setNumber] = useState('');
+    const navigation = useNavigation<NativeStackNavigationProp<StackPramsList>>();
 
+
+    async function openOrder(){
+       if(number === ''){
+        return;
+       }
+
+       // fazer requisição, abrir a mesa e seguir para proxima tela
+       navigation.navigate('Order',{number:number, order_id: '3e9333ee-4c72-4a75-8637-a0ba03f2eca2'})
+    }
     return(
         <SafeAreaView style={styles.container}>
             <Text style={styles.title}>Novo Pedido</Text>
@@ -14,9 +26,11 @@ export default function Dashboard(){
             placeholderTextColor="#f0f0f0"
             style={styles.input}
             keyboardType="numeric"
+            value={number}
+            onChangeText={setNumber}
             />
 
-            <TouchableOpacity style={styles.button}>
+            <TouchableOpacity style={styles.button} onPress={openOrder}>
                 <Text style={styles.textButton}>Abrir mesa</Text>
             </TouchableOpacity>
             
